@@ -160,6 +160,10 @@
     </table>
     <button onclick="showAddStudentPage()">Add Students</button> <br>
     <button onclick="viewAttendance()">View Attendance</button> <br>
+
+    <!-- Add this below the "Add Students" button on the Attendance Page -->
+<button onclick="deleteAttendanceRecords()">Delete Records</button> <br>
+
     <p style="display: flex; align-items: center; justify-content: center; margin: 0;text-align: center;">
       You can connect with us and ask your queries here</p>
 
@@ -207,7 +211,7 @@
       </thead>
       <tbody id="attendance-rows"></tbody>
     </table>
-    <button onclick="saveAttendance()">Save Attendance</button>
+    <button onclick="saveAttendance()">Save Attendance</button>  <br>
     <button onclick="downloadAttendanceReport()">Download Attendance Report</button>
   </div>
 
@@ -454,6 +458,28 @@
   document.getElementById('login-page').style.animation = "fadeIn 0.8s ease-out";
 };
 
+
+function deleteAttendanceRecords() {
+  const semester = localStorage.getItem("selectedSem");
+  const selectedDate = document.getElementById('attendance-date').value;
+
+
+  // Ask for confirmation before deleting records
+  const confirmDelete = confirm("Are you sure you want to delete all attendance and student records for this date?");
+  
+  if (confirmDelete) {
+    // Delete attendance records for the selected semester and date
+    localStorage.removeItem(`attendance-${semester}-${selectedDate}`);
+    
+    // Delete student data for the selected semester
+    localStorage.removeItem(`sem${semester}`);
+
+    alert("All attendance and student records have been deleted.");
+    
+    // Optionally, reload the page or update the UI
+    loadSemesterAttendance();  // This will reload the attendance table with no data
+  }
+}
 
 
   </script>
